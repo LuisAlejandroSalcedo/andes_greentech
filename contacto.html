@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Web Andes GT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Header - Glass Morphism */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3a5a40 0%, #7cc5b1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #1a1a1a;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #3a5a40;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #7cc5b1, #3a5a40);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        .lang-selector {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            color: #1a1a1a;
+        }
+
+        .lang-selector:hover {
+            background: rgba(58, 90, 64, 0.1);
+            border-color: rgba(58, 90, 64, 0.3);
+        }
+
+        /* Hero Contacto */
+        .hero-contacto {
+            padding: 5rem 3rem 3rem;
+            background: linear-gradient(180deg, #f5f9f7 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-contacto::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: 0;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(124, 197, 177, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-contacto-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            animation: slideInUp 1s ease-out 0.2s forwards;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-contacto h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+        }
+
+        .hero-contacto p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+
+        /* Contact Layout */
+        .contact-section {
+            padding: 4rem 3rem 6rem;
+            background: white;
+        }
+
+        .contact-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            opacity: 0;
+            animation: slideInLeft 0.8s ease-out 0.3s forwards;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .contact-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .contact-info > p {
+            color: #666;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 48px rgba(58, 90, 64, 0.12);
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(124, 197, 177, 0.2) 0%, rgba(144, 190, 109, 0.1) 100%);
+            border: 1px solid rgba(124, 197, 177, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.2rem;
+            color: #1a1a1a;
+        }
+
+        .info-card p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .info-card a {
+            color: #3a5a40;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .info-card a:hover {
+            color: #7cc5b1;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(124, 197, 177, 0.2) 0%, rgba(144, 190, 109, 0.1) 100%);
+            border: 1px solid rgba(124, 197, 177, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: linear-gradient(135deg, #7cc5b1, #90be6d);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(124, 197, 177, 0.3);
+        }
+
+        /* Contact Form */
+        .contact-form-container {
+            opacity: 0;
+            animation: slideInRight 0.8s ease-out 0.5s forwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+        }
+
+        .form-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(124, 197, 177, 0.2);
+        }
+
+        .form-tab {
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: #666;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .form-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #7cc5b1, #90be6d);
+            transition: width 0.3s;
+        }
+
+        .form-tab:hover {
+            color: #3a5a40;
+        }
+
+        .form-tab.active {
+            color: #3a5a40;
+        }
+
+        .form-tab.active::after {
+            width: 100%;
+        }
+
+        .form-content {
+            display: none;
+        }
+
+        .form-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group label .required {
+            color: #e63946;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid rgba(124, 197, 177, 0.2);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: white;
+            color: #1a1a1a;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #7cc5b1;
+            box-shadow: 0 0 0 3px rgba(124, 197, 177, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .checkbox-group {
+            margin: 1.5rem 0;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: auto;
+            margin-top: 0.25rem;
+            cursor: pointer;
+        }
+
+        .checkbox-label span {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .checkbox-label a {
+            color: #3a5a40;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .checkbox-label a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #3a5a40 0%, #2d4a33 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 24px rgba(58, 90, 64, 0.2);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(58, 90, 64, 0.3);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 3rem;
+            background: linear-gradient(180deg, #ffffff 0%, #f5f9f7 100%);
+        }
+
+        .faq-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .faq-section .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 4rem;
+            font-size: 1.1rem;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s;
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
+        .faq-item:nth-child(1) { animation-delay: 0.1s; }
+        .faq-item:nth-child(2) { animation-delay: 0.2s; }
+        .faq-item:nth-child(3) { animation-delay: 0.3s; }
+        .faq-item:nth-child(4) { animation-delay: 0.4s; }
+        .faq-item:nth-child(5) { animation-delay: 0.5s; }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1a1a1a;
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            color: #3a5a40;
+        }
+
+        .faq-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, rgba(124, 197, 177, 0.2) 0%, rgba(144, 190, 109, 0.1) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+            background: linear-gradient(135deg, #7cc5b1, #90be6d);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .faq-answer p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Map Section */
+        .map-section {
+            padding: 6rem 3rem;
+            background: white;
+        }
+
+        .map-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .map-section .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .map-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 450px;
+            background: linear-gradient(135deg, rgba(245, 249, 247, 0.8) 0%, rgba(232, 226, 207, 0.6) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .map-placeholder .icon {
+            font-size: 4rem;
+        }
+
+        .map-placeholder p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f0f0f;
+            color: white;
+            padding: 4rem 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #7cc5b1, #90be6d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #7cc5b1;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, rgba(124, 197, 177, 0.2) 0%, rgba(144, 190, 109, 0.1) 100%);
+            border-left: 4px solid #7cc5b1;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            color: #3a5a40;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideInDown 0.5s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .contact-layout {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 1.5rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .hero-contacto h1 {
+                font-size: 2.5rem;
+            }
+
+            .contact-form {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-tabs {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <!-- Header -->
+    <header>
+        <div class="logo">Andes GreenTech</div>
+        <nav>
+            <a href="web-andes-gt-design.html">Inicio</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="hydraterra.html">HydraTerra</a>
+            <a href="blog_noticias.html">Noticias</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+    </header>
+
+    <!-- Hero Contacto -->
+    <section class="hero-contacto">
+        <div class="hero-contacto-content">
+            <h1>Conversemos sobre tu Proyecto</h1>
+            <p>Estamos aquí para ayudarte a transformar tus desafíos ambientales en oportunidades de crecimiento sostenible</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="contact-layout">
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <h2>Información de Contacto</h2>
+                <p>Nuestro equipo de expertos está listo para responder tus consultas y diseñar soluciones personalizadas para tu proyecto.</p>
+
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-icon">📧</div>
+                        <h3>Email</h3>
+                    </div>
+                    <p>
+                        General: <a href="mailto:info@webandesgt.com">info@webandesgt.com</a><br>
+                        Ventas: <a href="mailto:ventas@webandesgt.com">ventas@webandesgt.com</a><br>
+                        Soporte: <a href="mailto:soporte@webandesgt.com">soporte@webandesgt.com</a>
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-icon">📞</div>
+                        <h3>Teléfono</h3>
+                    </div>
+                    <p>
+                        Chile: <a href="tel:+56912345678">+56 9 1234 5678</a><br>
+                        WhatsApp: <a href="https://wa.me/56912345678">+56 9 1234 5678</a><br>
+                        Horario: Lun-Vie 9:00 - 18:00
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-icon">📍</div>
+                        <h3>Ubicación</h3>
+                    </div>
+                    <p>
+                        Santiago, Chile<br>
+                        Región Metropolitana<br>
+                        Visitas con cita previa
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-icon">⏱️</div>
+                        <h3>Tiempo de Respuesta</h3>
+                    </div>
+                    <p>
+                        Email: 24-48 horas hábiles<br>
+                        Teléfono: Inmediato en horario laboral<br>
+                        Formulario web: 24 horas
+                    </p>
+                </div>
+
+                <div class="social-links">
+                    <a href="#" class="social-link" title="LinkedIn">💼</a>
+                    <a href="#" class="social-link" title="Instagram">📷</a>
+                    <a href="#" class="social-link" title="Facebook">👤</a>
+                    <a href="#" class="social-link" title="YouTube">🎥</a>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-container">
+                <div class="contact-form">
+                    <div class="success-message" id="successMessage">
+                        ✓ ¡Mensaje enviado exitosamente! Nos pondremos en contacto contigo pronto.
+                    </div>
+
+                    <div class="form-tabs">
+                        <button class="form-tab active" onclick="switchTab('general')">Contacto General</button>
+                        <button class="form-tab" onclick="switchTab('hydra')">HydraTerra</button>
+                    </div>
+
+                    <!-- General Contact Form -->
+                    <div id="general" class="form-content active">
+                        <form onsubmit="return handleSubmit(event, 'general')">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nombre Completo <span class="required">*</span></label>
+                                    <input type="text" name="nombre" placeholder="Juan Pérez" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email <span class="required">*</span></label>
+                                    <input type="email" name="email" placeholder="tu@email.com" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Teléfono <span class="required">*</span></label>
+                                    <input type="tel" name="telefono" placeholder="+56 9 1234 5678" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Empresa/Institución</label>
+                                    <input type="text" name="empresa" placeholder="Tu empresa">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Área de Interés <span class="required">*</span></label>
+                                <select name="interes" required>
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="asesorias">Asesorías Ambientales</option>
+                                    <option value="laboratorio">Análisis de Laboratorio</option>
+                                    <option value="id">I+D Personalizado</option>
+                                    <option value="capacitacion">Capacitación</option>
+                                    <option value="hydra">HydraTerra</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mensaje <span class="required">*</span></label>
+                                <textarea name="mensaje" placeholder="Cuéntanos sobre tu proyecto o consulta..." required></textarea>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="newsletter">
+                                    <span>Deseo recibir noticias y novedades de Web Andes GT</span>
+                                </label>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="privacidad" required>
+                                    <span>Acepto la <a href="#">Política de Privacidad</a> y el tratamiento de mis datos <span class="required">*</span></span>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-submit">Enviar Mensaje</button>
+                        </form>
+                    </div>
+
+                    <!-- HydraTerra Specific Form -->
+                    <div id="hydra" class="form-content">
+                        <form onsubmit="return handleSubmit(event, 'hydra')">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nombre Completo <span class="required">*</span></label>
+                                    <input type="text" name="nombre" placeholder="Juan Pérez" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email <span class="required">*</span></label>
+                                    <input type="email" name="email" placeholder="tu@email.com" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Teléfono <span class="required">*</span></label>
+                                    <input type="tel" name="telefono" placeholder="+56 9 1234 5678" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Empresa Agrícola</label>
+                                    <input type="text" name="empresa" placeholder="Nombre de tu empresa">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Tipo de Cultivo <span class="required">*</span></label>
+                                    <select name="cultivo" required>
+                                        <option value="">Selecciona un tipo</option>
+                                        <option value="hortalizas">Hortalizas</option>
+                                        <option value="frutales">Frutales</option>
+                                        <option value="cereales">Cereales</option>
+                                        <option value="viñedos">Viñedos</option>
+                                        <option value="invernadero">Invernadero</option>
+                                        <option value="otro">Otro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Área Aproximada (hectáreas) <span class="required">*</span></label>
+                                    <input type="number" name="area" placeholder="Ej: 10" min="0" step="0.1" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>¿Utilizas sistema de riego tecnificado?</label>
+                                <select name="riego">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="goteo">Riego por goteo</option>
+                                    <option value="aspersion">Aspersión</option>
+                                    <option value="microaspersion">Microaspersión</option>
+                                    <option value="gravedad">Riego por gravedad</option>
+                                    <option value="ninguno">Sin sistema tecnificado</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Cuéntanos sobre tu proyecto <span class="required">*</span></label>
+                                <textarea name="mensaje" placeholder="Describe tus necesidades, desafíos de riego, objetivos..." required></textarea>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="muestra">
+                                    <span>Deseo recibir una muestra gratuita de HydraTerra</span>
+                                </label>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="newsletter">
+                                    <span>Recibir información técnica y casos de éxito de HydraTerra</span>
+                                </label>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="privacidad" required>
+                                    <span>Acepto la <a href="#">Política de Privacidad</a> <span class="required">*</span></span>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-submit">Solicitar Información de HydraTerra</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <h2>Preguntas Frecuentes</h2>
+        <p class="subtitle">Respuestas rápidas a las consultas más comunes</p>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>¿Cuál es el tiempo de respuesta a una consulta?</span>
+                    <div class="faq-icon">+</div>
+                </div>
+                <div class="faq-answer">
+                    <p>Respondemos todas las consultas en un plazo máximo de 24-48 horas hábiles. Para consultas urgentes, te recomendamos contactarnos directamente por teléfono o WhatsApp durante nuestro horario de atención.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>¿Ofrecen asesoría gratuita inicial?</span>
+                    <div class="faq-icon">+</div>
+                </div>
+                <div class="faq-answer">
+                    <p>Sí, ofrecemos una consulta inicial gratuita de 30 minutos para evaluar tus necesidades y determinar cómo podemos ayudarte. Esta sesión nos permite entender tu proyecto y proponerte las mejores soluciones.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>¿Dónde están ubicados?</span>
+                    <div class="faq-icon">+</div>
+                </div>
+                <div class="faq-answer">
+                    <p>Nuestra oficina principal está en Santiago, Chile. Sin embargo, prestamos servicios a nivel nacional e internacional. Para visitas presenciales, solicitamos coordinar una cita previa.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>¿Hacen envíos de HydraTerra a todo Chile?</span>
+                    <div class="faq-icon">+</div>
+                </div>
+                <div class="faq-answer">
+                    <p>Sí, realizamos envíos a todo Chile y países de América Latina. Los costos de envío varían según la ubicación y cantidad del pedido. Para pedidos grandes, ofrecemos condiciones especiales de despacho.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>¿Puedo solicitar una muestra de HydraTerra?</span>
+                    <div class="faq-icon">+</div>
+                </div>
+                <div class="faq-answer">
+                    <p>Sí, ofrecemos muestras gratuitas para proyectos agrícolas. Solo necesitas completar el formulario específico de HydraTerra indicando que deseas recibir una muestra. Te contactaremos para coordinar el envío y brindarte asesoría sobre su aplicación.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <h2>Encuéntranos</h2>
+        <p class="subtitle">Nuestra ubicación en Santiago, Chile</p>
+
+        <div class="map-container">
+            <div class="map-placeholder">
+                <div class="icon">📍</div>
+                <p>Mapa interactivo - Santiago, Región Metropolitana</p>
+                <p style="font-size: 0.9rem; color: #999;">Integración con Google Maps próximamente</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Empresa</h3>
+                <p><a href="#">Sobre Nosotros</a></p>
+                <p><a href="#">Equipo</a></p>
+                <p><a href="#">Carreras</a></p>
+                <p><a href="#">Prensa</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Productos</h3>
+                <p><a href="#">HydraTerra</a></p>
+                <p><a href="#">Soluciones</a></p>
+                <p><a href="#">Casos de Éxito</a></p>
+                <p><a href="#">Documentación</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <p><a href="#">Privacidad</a></p>
+                <p><a href="#">Términos</a></p>
+                <p><a href="#">Cookies</a></p>
+                <p><a href="#">Contacto</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Conecta</h3>
+                <p>Email: info@webandesgt.com</p>
+                <p>Teléfono: +56 9 XXXX XXXX</p>
+                <p><a href="#">LinkedIn</a></p>
+                <p><a href="#">Instagram</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Web Andes GT. Todos los derechos reservados. Innovación para un futuro sostenible.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching for forms
+        function switchTab(tabName) {
+            // Hide all form contents
+            const contents = document.querySelectorAll('.form-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.form-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected form content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.currentTarget.classList.add('active');
+        }
+
+        // FAQ toggle
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const wasActive = faqItem.classList.contains('active');
+
+            // Close all FAQs
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Open clicked FAQ if it wasn't active
+            if (!wasActive) {
+                faqItem.classList.add('active');
+            }
+        }
+
+        // Form submission
+        function handleSubmit(event, formType) {
+            event.preventDefault();
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('show');
+
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Reset form
+            event.target.reset();
+
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 5000);
+
+            // Here you would typically send the form data to your backend
+            console.log('Form submitted:', formType);
+            
+            return false;
+        }
+
+        // Auto-hide success message on scroll
+        window.addEventListener('scroll', function() {
+            const successMessage = document.getElementById('successMessage');
+            if (successMessage.classList.contains('show')) {
+                const rect = successMessage.getBoundingClientRect();
+                if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                    successMessage.classList.remove('show');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

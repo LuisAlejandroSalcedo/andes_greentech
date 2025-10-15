@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog y Noticias - Web Andes GT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Header - Glass Morphism */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3a5a40 0%, #7cc5b1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #1a1a1a;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #3a5a40;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #7cc5b1, #3a5a40);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        .lang-selector {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            color: #1a1a1a;
+        }
+
+        .lang-selector:hover {
+            background: rgba(58, 90, 64, 0.1);
+            border-color: rgba(58, 90, 64, 0.3);
+        }
+
+        /* Hero Blog */
+        .hero-blog {
+            padding: 5rem 3rem 3rem;
+            background: linear-gradient(180deg, #f5f9f7 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-blog::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: 0;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(124, 197, 177, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-blog-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            animation: slideInUp 1s ease-out 0.2s forwards;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-blog h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+        }
+
+        .hero-blog p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Search and Filter Bar */
+        .filter-bar {
+            background: white;
+            padding: 2rem 3rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 88px;
+            z-index: 90;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+        }
+
+        .filter-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.9rem 1.2rem 0.9rem 3rem;
+            border: 2px solid rgba(124, 197, 177, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #7cc5b1;
+            box-shadow: 0 0 0 3px rgba(124, 197, 177, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #7cc5b1;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 0.7rem 1.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(124, 197, 177, 0.2);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .category-btn:hover {
+            background: rgba(124, 197, 177, 0.1);
+            border-color: rgba(124, 197, 177, 0.4);
+            color: #3a5a40;
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #7cc5b1, #90be6d);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Featured Post */
+        .featured-section {
+            padding: 4rem 3rem;
+            background: white;
+        }
+
+        .featured-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .featured-label {
+            display: inline-block;
+            background: linear-gradient(135deg, #7cc5b1, #90be6d);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .featured-post {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s;
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .featured-post:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(58, 90, 64, 0.15);
+        }
+
+        .featured-image {
+            background: linear-gradient(135deg, rgba(245, 249, 247, 0.8) 0%, rgba(232, 226, 207, 0.6) 100%);
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+        }
+
+        .featured-content {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .post-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .post-category {
+            background: rgba(124, 197, 177, 0.2);
+            color: #3a5a40;
+            padding: 0.25rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .featured-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            line-height: 1.3;
+        }
+
+        .featured-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #3a5a40;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .read-more:hover {
+            color: #7cc5b1;
+            gap: 1rem;
+        }
+
+        /* Blog Grid */
+        .blog-grid-section {
+            padding: 4rem 3rem;
+            background: linear-gradient(180deg, #ffffff 0%, #f5f9f7 100%);
+        }
+
+        .blog-grid-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .blog-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            transition: all 0.4s;
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
+        .blog-card:nth-child(1) { animation-delay: 0.1s; }
+        .blog-card:nth-child(2) { animation-delay: 0.2s; }
+        .blog-card:nth-child(3) { animation-delay: 0.3s; }
+        .blog-card:nth-child(4) { animation-delay: 0.4s; }
+        .blog-card:nth-child(5) { animation-delay: 0.5s; }
+        .blog-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .blog-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 60px rgba(58, 90, 64, 0.15);
+        }
+
+        .blog-card-image {
+            background: linear-gradient(135deg, rgba(245, 249, 247, 0.8) 0%, rgba(232, 226, 207, 0.6) 100%);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-card-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.05) 100%);
+        }
+
+        .blog-card-content {
+            padding: 1.5rem;
+        }
+
+        .blog-card-content .post-meta {
+            margin-bottom: 1rem;
+        }
+
+        .blog-card-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: #1a1a1a;
+            line-height: 1.4;
+        }
+
+        .blog-card-content p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pagination-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(124, 197, 177, 0.2);
+            border-radius: 8px;
+            background: white;
+            color: #555;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-btn:hover {
+            background: rgba(124, 197, 177, 0.1);
+            border-color: #7cc5b1;
+            color: #3a5a40;
+        }
+
+        .pagination-btn.active {
+            background: linear-gradient(135deg, #7cc5b1, #90be6d);
+            color: white;
+            border-color: transparent;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Sidebar (for 2-column layout on individual posts) */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+        }
+
+        .sidebar h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+
+        .sidebar-categories {
+            list-style: none;
+        }
+
+        .sidebar-categories li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-categories li:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-categories a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: #555;
+            transition: color 0.3s;
+        }
+
+        .sidebar-categories a:hover {
+            color: #3a5a40;
+        }
+
+        .category-count {
+            background: rgba(124, 197, 177, 0.2);
+            color: #3a5a40;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Newsletter CTA */
+        .newsletter-section {
+            padding: 6rem 3rem;
+            background: linear-gradient(135deg, #3a5a40 0%, #2d4a33 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(124, 197, 177, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .newsletter-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+
+        .newsletter-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .newsletter-form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .newsletter-form input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .newsletter-form button {
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #7cc5b1, #90be6d);
+            color: #1a1a1a;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(124, 197, 177, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: #0f0f0f;
+            color: white;
+            padding: 4rem 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #7cc5b1, #90be6d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #7cc5b1;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .featured-post {
+                grid-template-columns: 1fr;
+            }
+
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-bar-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 1.5rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .hero-blog h1 {
+                font-size: 2.5rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-content {
+                padding: 2rem;
+            }
+
+            .newsletter-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <!-- Header -->
+    <header>
+        <div class="logo">Andes GreenTech</div>
+        <nav>
+            <a href="web-andes-gt-design.html">Inicio</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="hydraterra.html">HydraTerra</a>
+            <a href="blog_noticias.html">Noticias</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+    </header>
+
+    <!-- Hero Blog -->
+    <section class="hero-blog">
+        <div class="hero-blog-content">
+            <h1>Blog y Noticias</h1>
+            <p>Descubre las últimas innovaciones en agricultura sostenible, casos de éxito y conocimiento experto de nuestro equipo</p>
+        </div>
+    </section>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-bar-content">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Buscar artículos..." onkeyup="searchPosts()">
+            </div>
+            <div class="category-filters">
+                <button class="category-btn active" onclick="filterCategory('all')">Todos</button>
+                <button class="category-btn" onclick="filterCategory('noticias')">Noticias</button>
+                <button class="category-btn" onclick="filterCategory('casos')">Casos de Éxito</button>
+                <button class="category-btn" onclick="filterCategory('tecnologia')">Tecnología</button>
+                <button class="category-btn" onclick="filterCategory('ambiente')">Medio Ambiente</button>
+                <button class="category-btn" onclick="filterCategory('opinion')">Opinión</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Post -->
+    <section class="featured-section">
+        <div class="featured-container">
+            <span class="featured-label">⭐ Artículo Destacado</span>
+            <article class="featured-post">
+                <div class="featured-image">
+                    🌱
+                </div>
+                <div class="featured-content">
+                    <div class="post-meta">
+                        <span class="post-category">Casos de Éxito</span>
+                        <span class="post-meta-item">📅 15 Oct 2024</span>
+                        <span class="post-meta-item">⏱️ 8 min lectura</span>
+                    </div>
+                    <h2>Cómo HydraTerra Aumentó la Producción en 40% en el Valle del Aconcagua</h2>
+                    <p>
+                        Un proyecto piloto en viñedos chilenos demuestra resultados excepcionales: reducción de 
+                        55% en consumo de agua y aumento significativo en la calidad de la uva. Conoce los 
+                        detalles de esta transformación agrícola.
+                    </p>
+                    <a href="#" class="read-more">
+                        Leer artículo completo
+                        <span>→</span>
+                    </a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Blog Grid -->
+    <section class="blog-grid-section">
+        <div class="blog-grid-container">
+            <div class="blog-grid" id="blogGrid">
+                <!-- Post 1 -->
+                <article class="blog-card" data-category="tecnologia">
+                    <div class="blog-card-image">🔬</div>
+                    <div class="blog-card-content">
+                        <div class="post-meta">
+                            <span class="post-category">Tecnología</span>
+                            <span class="post-meta-item">⏱️ 5 min</span>
+                        </div>
+                        <h3>La Ciencia Detrás de los Polímeros Biodegradables</h3>
+                        <p>Exploramos cómo funcionan los polímeros superabsorbentes y su impacto en la agricultura moderna...</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </article>
+
+                <!-- Post 2 -->
+                <article class="blog-card" data-category="noticias">
+                    <div class="blog-card-image">📢</div>
+                    <div class="blog-card-content">
+                        <div class="post-meta">
+                            <span class="post-category">Noticias</span>
+                            <span class="post-meta-item">⏱️ 3 min</span>
+                        </div>
+                        <h3>Web Andes GT Gana Premio a la Innovación Sostenible 2024</h3>
+                        <p>Reconocimiento internacional destaca nuestro compromiso con soluciones ambientales efectivas...</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </article>
+
+                <!-- Post 3 -->
+                <article class="blog-card" data-category="ambiente">
+                    <div class="blog-card-image">🌍</div>
+                    <div class="blog-card-content">
+                        <div class="post-meta">
+                            <span class="post-category">Medio Ambiente</span>
+                            <span class="post-meta-item">⏱️ 7 min</span>
+                        </div>
+                        <h3>Agricultura Regenerativa: El Futuro es Ahora</h3>
+                        <p>Cómo las prácticas agrícolas pueden restaurar ecosistemas mientras aumentan la productividad...</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </article>
+
+                <!-- Post 4 -->
+                <article class="blog-card" data-category="casos">
+                    <div class="blog-card-image">🏆</div>
+                    <div class="blog-card-content">
+                        <div class="post-meta">
+                            <span class="post-category">Casos de Éxito</span>
+                            <span class="post-meta-item">⏱️ 6 min</span>
+                        </div>
+                        <h3>Recuperación de Suelos Degradados en Región de Coquimbo</h3>
+                        <p>Proyecto de remediación logra recuperar 200 hectáreas utilizando tecnologías bio-ecológicas...</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </article>
+
+                <!-- Post 5 -->
+                <article class="blog-card" data-category="opinion">
+                    <div class="blog-card-image">💭</div>
+                    <div class="blog-card-content">
+                        <div class="post-meta">
+                            <span class="post-category">Opinión</span>
+                            <span class="post-meta-item">⏱️ 4 min</span>
+                        </div>
+                        <h3>El Rol de la Biotecnología en la Seguridad Alimentaria</h3>
+                        <p>Reflexiones de nuestro equipo científico sobre los desafíos y oportunidades del sector...</p>
+                        <a href="#" class="read-more">Leer más →</a>
+                    </div>
+                </article>
+
+                <!-- Post 6 -->
+                <article class="blog-card" data-category="tecnologia">
+                    <div class="blog-card-image">💧

@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios - Web Andes GT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Header - Glass Morphism */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3a5a40 0%, #7cc5b1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #1a1a1a;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #3a5a40;
+        }
+
+        nav a.active {
+            color: #3a5a40;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #7cc5b1, #3a5a40);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        .lang-selector {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            color: #1a1a1a;
+        }
+
+        .lang-selector:hover {
+            background: rgba(58, 90, 64, 0.1);
+            border-color: rgba(58, 90, 64, 0.3);
+        }
+
+        /* Hero Section - Servicios */
+        .hero-servicios {
+            min-height: 500px;
+            padding: 6rem 3rem 4rem;
+            background: linear-gradient(180deg, #f5f9f7 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-servicios::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(124, 197, 177, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-servicios::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(144, 190, 109, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            animation: heroSlideUp 1s ease-out 0.2s forwards;
+        }
+
+        @keyframes heroSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Services Grid - Mejorado */
+        .servicios-section {
+            background: white;
+            padding: 6rem 3rem;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 4rem;
+            font-size: 1.1rem;
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .servicios-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+        }
+
+        .servicio-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .servicio-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(124, 197, 177, 0.05) 0%, rgba(144, 190, 109, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .servicio-card:hover::before {
+            opacity: 1;
+        }
+
+        .servicio-card:nth-child(1) { animation-delay: 0.1s; }
+        .servicio-card:nth-child(2) { animation-delay: 0.2s; }
+        .servicio-card:nth-child(3) { animation-delay: 0.3s; }
+        .servicio-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .servicio-card:hover {
+            transform: translateY(-12px);
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(124, 197, 177, 0.4);
+            box-shadow: 0 20px 60px rgba(58, 90, 64, 0.15);
+        }
+
+        .servicio-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(124, 197, 177, 0.2) 0%, rgba(144, 190, 109, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(124, 197, 177, 0.3);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .servicio-card:hover .servicio-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: linear-gradient(135deg, rgba(124, 197, 177, 0.3) 0%, rgba(144, 190, 109, 0.2) 100%);
+        }
+
+        .servicio-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            position: relative;
+            z-index: 1;
+        }
+
+        .servicio-card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .servicio-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .servicio-features li {
+            padding: 0.5rem 0;
+            color: #555;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .servicio-features li::before {
+            content: '✓';
+            color: #7cc5b1;
+            font-weight: bold;
+            margin-right: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .btn-servicio {
+            display: inline-block;
+            background: linear-gradient(135deg, #3a5a40 0%, #2d4a33 100%);
+            color: white;
+            padding: 0.9rem 1.8rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(58, 90, 64, 0.2);
+            position: relative;
+            z-index: 1;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-servicio:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(58, 90, 64, 0.3);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Proceso Section */
+        .proceso-section {
+            background: linear-gradient(180deg, #ffffff 0%, #f5f9f7 100%);
+            padding: 6rem 3rem;
+            position: relative;
+        }
+
+        .proceso-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .proceso-item {
+            text-align: center;
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out forwards;
+            position: relative;
+        }
+
+        .proceso-item:nth-child(1) { animation-delay: 0.1s; }
+        .proceso-item:nth-child(2) { animation-delay: 0.2s; }
+        .proceso-item:nth-child(3) { animation-delay: 0.3s; }
+        .proceso-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .proceso-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(124, 197, 177, 0.2) 0%, rgba(144, 190, 109, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(124, 197, 177, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #3a5a40;
+            margin: 0 auto 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .proceso-item:hover .proceso-number {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, rgba(124, 197, 177, 0.3) 0%, rgba(144, 190, 109, 0.2) 100%);
+        }
+
+        .proceso-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: #1a1a1a;
+        }
+
+        .proceso-item p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Connector Line */
+        .proceso-item::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(124, 197, 177, 0.3), rgba(144, 190, 109, 0.1));
+            z-index: -1;
+        }
+
+        .proceso-item:last-child::after {
+            display: none;
+        }
+
+        /* Cross-sell HydraTerra - Igual al prototipo */
+        .hydra-section {
+            background: linear-gradient(135deg, #3a5a40 0%, #2d4a33 100%);
+            color: white;
+            padding: 6rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hydra-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hydra-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hydra-image {
+            background: linear-gradient(135deg, rgba(245, 249, 247, 0.15) 0%, rgba(232, 226, 207, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateZ(2deg); }
+            50% { transform: translateY(-30px) rotateZ(-2deg); }
+        }
+
+        .hydra-content {
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .hydra-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .hydra-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+
+        .hydra-benefits {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .hydra-benefits li {
+            padding: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            opacity: 0;
+            animation: slideInLeft 0.6s ease-out forwards;
+        }
+
+        .hydra-benefits li:nth-child(1) { animation-delay: 0.4s; }
+        .hydra-benefits li:nth-child(2) { animation-delay: 0.5s; }
+        .hydra-benefits li:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hydra-benefits li::before {
+            content: '✓';
+            color: #7cc5b1;
+            font-weight: bold;
+            margin-right: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .btn-hydra {
+            background: white;
+            color: #3a5a40;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-hydra:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(255, 255, 255, 0.3);
+        }
+
+        /* CTA Final */
+        .cta-final {
+            background: white;
+            padding: 6rem 3rem;
+            text-align: center;
+        }
+
+        .cta-final h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out 0.2s forwards;
+        }
+
+        .cta-final p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3a5a40 0%, #2d4a33 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            text-decoration: none;
+            box-shadow: 0 8px 24px rgba(58, 90, 64, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(58, 90, 64, 0.3);
+        }
+
+        /* Footer - Idéntico al prototipo */
+        footer {
+            background: #0f0f0f;
+            color: white;
+            padding: 4rem 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #7cc5b1, #90be6d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #7cc5b1;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .servicios-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .proceso-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .proceso-item::after {
+                display: none;
+            }
+
+            .hydra-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 1.5rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .servicio-card {
+                padding: 2rem;
+            }
+
+            .proceso-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hydra-content h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">Andes GreenTech</div>
+        <nav>
+            <a href="web-andes-gt-design.html">Inicio</a>
+            <a href="servicios.html">Servicios</a>
+            <a href="hydraterra.html">HydraTerra</a>
+            <a href="blog_noticias.html">Noticias</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
+    </header>
+
+    <!-- Hero Servicios -->
+    <section class="hero-servicios">
+        <div class="hero-content">
+            <h1>Soluciones Bio-ecológicas Integrales</h1>
+            <p>Transformamos desafíos ambientales en oportunidades de crecimiento sostenible. Descubre cómo nuestros servicios especializados pueden impulsar tu proyecto hacia el éxito.</p>
+        </div>
+    </section>
+
+    <!-- Servicios Grid -->
+    <section class="servicios-section" id="servicios">
+        <h2 class="section-title">Nuestros Servicios</h2>
+        <p class="section-subtitle">Cuatro pilares para tu transformación sostenible</p>
+        
+        <div class="servicios-grid">
+            <!-- Servicio 1: Asesorías -->
+            <div class="servicio-card">
+                <div class="servicio-icon">🔬</div>
+                <h3>Asesorías Ambientales</h3>
+                <p>Consultoría especializada en soluciones sostenibles adaptadas a las necesidades específicas de tu proyecto agrícola o industrial.</p>
+                
+                <ul class="servicio-features">
+                    <li>Diagnóstico ambiental completo</li>
+                    <li>Planes de gestión personalizados</li>
+                    <li>Cumplimiento normativo</li>
+                    <li>Estrategias de sostenibilidad</li>
+                </ul>
+                
+                <button class="btn-servicio">Solicitar Asesoría</button>
+            </div>
+
+            <!-- Servicio 2: Laboratorio -->
+            <div class="servicio-card">
+                <div class="servicio-icon">🧪</div>
+                <h3>Laboratorio</h3>
+                <p>Análisis avanzados de suelos y agua con tecnología de última generación para optimizar la productividad de tus cultivos.</p>
+                
+                <ul class="servicio-features">
+                    <li>Análisis fisicoquímico completo</li>
+                    <li>Resultados en 48-72 horas</li>
+                    <li>Certificación ISO 17025</li>
+                    <li>Interpretación especializada</li>
+                </ul>
+                
+                <button class="btn-servicio">Solicitar Análisis</button>
+            </div>
+
+            <!-- Servicio 3: I+D -->
+            <div class="servicio-card">
+                <div class="servicio-icon">🚀</div>
+                <h3>I+D Personalizado</h3>
+                <p>Desarrollo de soluciones innovadoras personalizadas para resolver tus desafíos ambientales más complejos.</p>
+                
+                <ul class="servicio-features">
+                    <li>Investigación aplicada</li>
+                    <li>Desarrollo de prototipos</li>
+                    <li>Validación en campo</li>
+                    <li>Transferencia tecnológica</li>
+                </ul>
+                
+                <button class="btn-servicio">Iniciar Proyecto</button>
+            </div>
+
+            <!-- Servicio 4: Capacitación -->
+            <div class="servicio-card">
+                <div class="servicio-icon">📚</div>
+                <h3>Capacitación</h3>
+                <p>Programas de entrenamiento completos diseñados para maximizar resultados y empoderar a tu equipo técnico.</p>
+                
+                <ul class="servicio-features">
+                    <li>Talleres presenciales y online</li>
+                    <li>Certificación profesional</li>
+                    <li>Material didáctico incluido</li>
+                    <li>Seguimiento post-capacitación</li>
+                </ul>
+                
+                <button class="btn-servicio">Ver Programas</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proceso de Trabajo -->
+    <section class="proceso-section">
+        <h2 class="section-title">Nuestro Proceso de Trabajo</h2>
+        <p class="section-subtitle">Un enfoque estructurado para garantizar resultados excepcionales</p>
+        
+        <div class="proceso-grid">
+            <div class="proceso-item">
+                <div class="proceso-number">01</div>
+                <h3>Diagnóstico</h3>
+                <p>Evaluamos tu situación actual y necesidades específicas</p>
+            </div>
+
+            <div class="proceso-item">
+                <div class="proceso-number">02</div>
+                <h3>Propuesta</h3>
+                <p>Diseñamos una solución personalizada y presupuesto</p>
+            </div>
+
+            <div class="proceso-item">
+                <div class="proceso-number">03</div>
+                <h3>Implementación</h3>
+                <p>Ejecutamos el proyecto con supervisión constante</p>
+            </div>
+
+            <div class="proceso-item">
+                <div class="proceso-number">04</div>
+                <h3>Seguimiento</h3>
+                <p>Monitoreamos resultados y optimizamos continuamente</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cross-sell HydraTerra -->
+    <section class="hydra-section">
+        <div class="hydra-layout">
+            <div class="hydra-image">💧</div>
+            <div class="hydra-content">
+                <h2>Potencia tus servicios con HydraTerra</h2>
+                <p>Complementa cualquiera de nuestros servicios con nuestra tecnología patentada de retención de agua. HydraTerra almacena hasta 10 litros de agua por kilogramo y libera nutrientes gradualmente para un crecimiento óptimo.</p>
+                
+                <ul class="hydra-benefits">
+                    <li>Reduce consumo de agua hasta 60%</li>
+                    <li>100% biodegradable y sostenible</li>
+                    <li>Certificado internacionalmente</li>
+                </ul>
+
+                <button class="btn-hydra">Descubrir HydraTerra</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="cta-final">
+        <h2>¿Listo para Transformar Tu Proyecto?</h2>
+        <p>Únete a cientos de empresas que ya están cosechando los beneficios de nuestras soluciones.</p>
+        <button class="btn-primary">Contactar Ahora</button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Empresa</h3>
+                <p><a href="#">Sobre Nosotros</a></p>
+                <p><a href="#">Equipo</a></p>
+                <p><a href="#">Carreras</a></p>
+                <p><a href="#">Prensa</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Productos</h3>
+                <p><a href="#">HydraTerra</a></p>
+                <p><a href="#">Soluciones</a></p>
+                <p><a href="#">Casos de Éxito</a></p>
+                <p><a href="#">Documentación</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <p><a href="#">Privacidad</a></p>
+                <p><a href="#">Términos</a></p>
+                <p><a href="#">Cookies</a></p>
+                <p><a href="#">Contacto</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Conecta</h3>
+                <p>Email: info@webandesgt.com</p>
+                <p>Teléfono: +56 9 XXXX XXXX</p>
+                <p><a href="#">LinkedIn</a></p>
+                <p><a href="#">Instagram</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Web Andes GT. Todos los derechos reservados. Innovación para un futuro sostenible.</p>
+        </div>
+    </footer>
+</body>
+</html>
